@@ -1,0 +1,17 @@
+export const LOADING = 'LOADING';
+export const LOADED = 'LOADED';
+export const INITIAL_FETCHING = 'INITIAL_FETCHING';
+export const CLEAN_STATE = 'CLEAN_STATE';
+export const DISPLAY_USER = 'DISPLAY_USER';
+export const DISPLAY_USER_ACTION = 'DISPLAY_USER_ACTION';
+export const DISPLAY_USER_BROUGHT = 'DISPLAY_USER_BROUGHT';
+export const ERASE_USER_STATE = 'ERASE_USER_STATE';
+export const EDIT_USER = 'EDIT_USER';
+export const DELETE_USER = 'DELETE_USER';
+export const SIGN_UP = 'SIGN_UP';
+export const SIGN_UP_ACTION = 'SIGN_UP_ACTION';
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_IN_ACTION = 'SIGN_IN_ACTION';
+export const AUTH_INIT_FETCHING = 'AUTH_INIT_FETCHING';
+export const AUTH_INIT_FETCHING_ACTION = 'AUTH_INIT_FETCHING_ACTION';
+export const SIGN_OUT = 'SIGN_OUT';
