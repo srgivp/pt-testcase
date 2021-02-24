@@ -1,7 +1,6 @@
 import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootSaga from './sagas/root-saga';
-// @ts-ignore
 import rootReducer from "./reducers/root-reducer";
 import {loadState, saveState} from "./support/local-storage";
 
@@ -18,6 +17,8 @@ const initialState = {
     loading: false,
     token: token
 };
+
+export type StoreState = ReturnType<typeof rootReducer>;
 
 const storeSagas = createStore(rootReducer, initialState, enhancer);
 storeSagas.subscribe(() => {

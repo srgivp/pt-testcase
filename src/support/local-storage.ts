@@ -18,9 +18,9 @@ export const saveState = (token: string) => {
         const storedState = JSON.stringify(token);
         localStorage.setItem("token", storedState);
     } catch (err) {
-        alert(
+       /* alert(
             "There is a problem with saving state to the storage, see console for details"
-        );
+        );*/
         console.log("saving state to the storage:", err.name, err.message);
     }
 };

@@ -10,6 +10,7 @@ import {
 import {useSelector} from "react-redux";
 import Users from "./components/users";
 import Processing from "./components/Processing";
+import Private from "./routes/Private";
 
 function App() {
   const state: any = useSelector(state => state);
@@ -24,7 +25,7 @@ function App() {
         <Route path='/unsigned' component={LoggedOutComponent} />
         <Route path='/sign-in' component={SignInComponent} />
         <Route path='/sign-up' component={SignUpComponent} />
-        <Route path='/users-page-1' component={Users} />
+        <Private path='/users-page-1' component={Users} />
       </Router>
 
     </div>

@@ -1,6 +1,7 @@
 import React, {useRef, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from 'react-hook-form';
+import { useAuth } from "../reducers/auth-reducer";
 import {signInSagaAction} from "../sagas/sign-in-saga";
 // @ts-ignore
 import {signUpSagaAction} from "../sagas/sign-in-saga";
@@ -10,8 +11,8 @@ import Button from "@material-ui/core/Button";
 import {OnBoardingProps, State, OnboardingFormData, AddToast, OnboardingSagaData} from "../types/ts-types";
 
 const Onboarding = (action: any, buttonName: string) => {
-    const state = useSelector((state: State) => state);
-    const dispatch = useDispatch();
+    const {onSignIn} = useAuth();
+
     const history = useHistory();
     const { register, handleSubmit, errors, watch } = useForm<OnboardingFormData>();
     const password=useRef({});
@@ -26,9 +27,7 @@ const Onboarding = (action: any, buttonName: string) => {
     return (
         <div id='onboarding-container' className='form-container'>
             <h2>{buttonName} to proceed</h2>
-            <form id='onboarding-form' onSubmit={handleSubmit((data)=>{
-                dispatch(action({data}));
-            })}>
+            <form id='onboarding-form' onSubmit={handleSubmit(onSignIn)}>
                 <div className='form-fields-container'>
                     <div className='form-group'>
                         <label htmlFor='login'>Login: </label>
