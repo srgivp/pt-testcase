@@ -1,33 +1,26 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from 'react-hook-form';
-import {signInSagaAction} from "../sagas/sign-in-saga";
-// @ts-ignore
-import {signUpSagaAction} from "../sagas/sign-in-saga";
 import './components.css';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import Button from "@material-ui/core/Button";
-import {OnBoardingProps, State, OnboardingFormData, AddToast, OnboardingSagaData} from "../types/ts-types";
+import {State, OnboardingFormData} from "../types/ts-types";
+import useAuth from "../support/use-auth";
+import {signInRequest, signUpRequest} from "../actions/sign-in-actions";
 
 const Onboarding = (action: any, buttonName: string) => {
-    const state = useSelector((state: State) => state);
-    const dispatch = useDispatch();
     const history = useHistory();
     const { register, handleSubmit, errors, watch } = useForm<OnboardingFormData>();
     const password=useRef({});
     password.current = watch('password', '');
-
-    // useEffect(() => {
-    //     if (state.users.length>0){
-    //         history.push('/users-page-1');
-    //     }
-    // }, [state.users.length, history])
+    const {onSignIn} = useAuth();
 
     return (
         <div id='onboarding-container' className='form-container'>
             <h2>{buttonName} to proceed</h2>
             <form id='onboarding-form' onSubmit={handleSubmit((data)=>{
-                dispatch(action({data}));
+                onSignIn(action, data);
+                history.push('/users-page-1')
             })}>
                 <div className='form-fields-container'>
                     <div className='form-group'>
@@ -76,11 +69,14 @@ const Onboarding = (action: any, buttonName: string) => {
 }
 
 export const SignUpComponent = () => {
-    return Onboarding(signUpSagaAction, 'Sign up');
+    return Onboarding(signUpRequest, 'Sign up');
 }
 
 export const SignInComponent = () => {
-    return Onboarding(signInSagaAction, 'Sign in');
+    return <div>
+        {Onboarding(signInRequest, 'Sign in')}
+        <div>or <Link to='/sign-up'>create new account</Link> if you aren't signed up yet</div>
+    </div>
 }
 
 export default Onboarding;

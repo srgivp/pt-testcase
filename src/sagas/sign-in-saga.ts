@@ -1,49 +1,19 @@
-import {call, put} from 'redux-saga/effects';
-import {SIGN_IN, SIGN_IN_ACTION, SIGN_UP_ACTION} from "../actions/action-types";
+import {call, put, SagaReturnType} from 'redux-saga/effects';
+import {SIGN_UP_REQUEST} from "../actions/action-types";
 import {sendCredentials, signInToApi} from "../support/axios";
-import loadedAction from "../actions/loaded-action";
-import loadingAction from "../actions/loading-action";
-// @ts-ignore
-import {OnboardingSagaData, OnboardingSagaAction, SignToApiResponse, SignToApiResponseData} from "../types/ts-types";
+import {signInRequest, signUpRequest, signInSuccess, signInFailed} from "../actions/sign-in-actions";
 
-export const signInSagaAction = (data: OnboardingSagaData) => {
-    return {
-        type: SIGN_IN_ACTION,
-        data
-    }
-}
-
-export const signUpSagaAction = (data: OnboardingSagaData) => {
-    return {
-        type: SIGN_UP_ACTION,
-        data
-    }
-}
-
-export function* signInSaga(action: OnboardingSagaAction): Generator<object, void, SignToApiResponse> {
-    const {type} = action;
-    const {data} = action.data;
-    const {login, password} = data;
-    let signInData: SignToApiResponse | SignToApiResponseData;
-    let token: string;
-    yield put(loadingAction());
+export function* signInSaga(action: ReturnType<typeof signInRequest> | ReturnType<typeof signUpRequest>) {
     try {
-        if (type===SIGN_IN_ACTION) {
-            signInData = yield call(signInToApi, login, password);
-            token = signInData.data.token;
+        const {password, username} = action.payload;
+        let response: SagaReturnType<typeof signInToApi> | SagaReturnType<typeof sendCredentials>;
+        if (action.type === SIGN_UP_REQUEST) {
+            response = yield call(sendCredentials, username, password);
         } else {
-            signInData = yield call(sendCredentials, login, password);
-            token = signInData.data.token;
+            response = yield call(signInToApi, username, password);
         }
-    } catch (err) {
-        console.log(err.name, err.message);
-        yield put(loadedAction())
-        return;
+        yield put(signInSuccess(response.data.token))
+    } catch (e) {
+        yield put(signInFailed(e))
     }
-    yield put(loadedAction());
-
-    yield put({
-        type: SIGN_IN,
-        data: token
-    })
 }

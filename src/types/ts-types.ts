@@ -1,4 +1,7 @@
 import {ReactNode} from "react";
+import {signInRequest, signInFailed, signInSuccess, signUpRequest} from "../actions/sign-in-actions";
+import rootReducer from "../reducers/root-reducer";
+import signOutAction from "../actions/sign-out-action";
 
 export type AddToast = (content: ReactNode, options: AddToastOptions) => string;
 export type AddToastOptions = {
@@ -151,3 +154,6 @@ export type SignToApiResponse = {
 }
 
 export type UsersReducerActionData = [] | StateUsers | StateUser | UserInfoFormData;
+
+export type AuthActions = ReturnType<typeof signInRequest | typeof signUpRequest| typeof signInSuccess | typeof signInFailed | typeof signOutAction>;
+export type StoreState = ReturnType<typeof rootReducer>;

@@ -11,18 +11,29 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware))
 
 const tokenLoaded = loadState();
+console.log('tokenLoaded: ', tokenLoaded);
 
 let token = tokenLoaded ? tokenLoaded : null;
 
-const initialState = {
+
+console.log('tokenLoadedAgain: ', tokenLoaded);
+
+export const initialState: any = {
     loading: false,
-    token: token
+    auth: {
+        loading: false,
+        isLoggedIn: !!token,
+        isAuthReady: !!token,
+        token: token as null | string,
+        error: null as null | Error,
+    }
 };
 
 const storeSagas = createStore(rootReducer, initialState, enhancer);
 storeSagas.subscribe(() => {
-    const state = storeSagas.getState();
-    const token = state.token;
+    const state: any = storeSagas.getState();
+    const token = state.auth.token;
+    console.log('tokenSaved: ', token);
     saveState(token);
 });
 
