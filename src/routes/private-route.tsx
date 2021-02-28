@@ -5,12 +5,13 @@ import useAuth from "../support/use-auth";
 import ROUTES from "./routes-constants";
 
 const PrivateRoute: React.FC<RouteProps> = ({ component: Component, render, ...rest }) => {
-    const { token, isAuthReady, loading, isLoggedIn } = useAuth();
+    const {isAuthReady, loading, isLoggedIn } = useAuth();
 
     const renderComponent = (props: RouteComponentProps) => {
-        if (!isAuthReady || loading) {
+        if (loading) {
             return <Processing />;
-        } else if (isLoggedIn) {
+        } else
+            if (isLoggedIn) {
             return Component ? <Component {...props} /> : null;
         } else {
             return <Redirect to={{ pathname: ROUTES.signIn, state: { from: props.location } }} />;

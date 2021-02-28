@@ -1,15 +1,9 @@
 import {takeEvery, takeLatest} from 'redux-saga/effects';
 import {
-    AUTH_INIT_FETCHING_ACTION,
-    DISPLAY_USER_ACTION,
-    SIGN_IN_ACTION,
-    SIGN_IN_REQUEST,
-    SIGN_UP_ACTION, SIGN_UP_REQUEST
+    SIGN_IN_REQUEST, SIGN_UP_REQUEST, FETCH_USERS_REQUEST
 } from "../actions/action-types";
-//import {authInitFetchingSaga} from "./auth-init-fetching-saga";
-//import {displayUserSaga} from "./display-user-saga";
 import {signInSaga} from "./sign-in-saga";
-//import signOutAction from "../actions/sign-out-action";
+import {fetchUsersSaga} from "./fetch-users-saga";
 
 
 export default function* rootSaga() {
@@ -17,4 +11,5 @@ export default function* rootSaga() {
     // yield takeEvery(DISPLAY_USER_ACTION, displayUserSaga);
     yield takeEvery(SIGN_IN_REQUEST, signInSaga);
     yield takeEvery(SIGN_UP_REQUEST, signInSaga);
+    yield takeEvery(FETCH_USERS_REQUEST, fetchUsersSaga)
 }

@@ -1,26 +1,32 @@
-import React, {useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect, useRef} from "react";
+import {useSelector} from "react-redux";
 import {useForm} from 'react-hook-form';
 import './components.css';
 import {useHistory, Link} from 'react-router-dom';
 import Button from "@material-ui/core/Button";
-import {State, OnboardingFormData} from "../types/ts-types";
+import {OnboardingFormData} from "../types/ts-types";
 import useAuth from "../support/use-auth";
 import {signInRequest, signUpRequest} from "../actions/sign-in-actions";
+import ROUTES from "../routes/routes-constants";
+import {State} from "../store-sagas";
 
 const Onboarding = (action: any, buttonName: string) => {
+    const state = useSelector(state => state as State);
     const history = useHistory();
     const { register, handleSubmit, errors, watch } = useForm<OnboardingFormData>();
     const password=useRef({});
     password.current = watch('password', '');
     const {onSignIn} = useAuth();
+    useEffect(() => {
+if (state.auth.token) {
+    history.push(ROUTES.dynamic.usersPage(1))}
+    })
 
     return (
         <div id='onboarding-container' className='form-container'>
             <h2>{buttonName} to proceed</h2>
             <form id='onboarding-form' onSubmit={handleSubmit((data)=>{
                 onSignIn(action, data);
-                history.push('/users-page-1')
             })}>
                 <div className='form-fields-container'>
                     <div className='form-group'>

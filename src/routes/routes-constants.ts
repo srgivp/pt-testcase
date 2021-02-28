@@ -2,7 +2,8 @@ const ROUTES = {
     signIn: '/sign-in',
     signUp: '/sign-up',
     dynamic: {
-        user: (id = ':id') => `/users-page/${id}`,
+        usersPage: (number: number | string = ':number') => `/users-page/${number}`,
+        user: (number = ':number', id = ':id') => `/users-page/${number}/${id}`,
     }
 }
 
