@@ -5,7 +5,7 @@ import useAuth from "../support/use-auth";
 import ROUTES from "./routes-constants";
 
 const PrivateRoute: React.FC<RouteProps> = ({ component: Component, render, ...rest }) => {
-    const {isAuthReady, loading, isLoggedIn } = useAuth();
+    const {loading, isLoggedIn } = useAuth();
 
     const renderComponent = (props: RouteComponentProps) => {
         if (loading) {

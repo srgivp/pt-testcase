@@ -2,13 +2,11 @@ import {useSelector, useDispatch} from "react-redux";
 import React, {useEffect} from "react";
 import {useToasts} from 'react-toast-notifications';
 import {CLEAN_ERROR} from "../actions/action-types";
-import {useHistory} from 'react-router-dom';
 import signOutAction from "../actions/sign-out-action";
 import {StoreState} from "../types/ts-types";
 
 const ErrorHandler = () => {
-    const stateError = useSelector((state: StoreState) => state.allErrorsHandler.error);
-    const history = useHistory();
+    const stateError: Error = useSelector((state: StoreState) => state.allErrorsHandler.error);
     const {addToast} = useToasts();
     const dispatch = useDispatch();
     const cleanError = () => {

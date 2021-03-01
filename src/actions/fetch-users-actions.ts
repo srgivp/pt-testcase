@@ -1,5 +1,6 @@
 import {CLEAR_USERS_INFO, FETCH_USERS_ERROR, FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS} from "./action-types";
 import signOutAction from "./sign-out-action";
+import {UsersItem} from "../types/ts-types";
 
 export const fetchUsersRequest = (pageNumber: number, token: string, orderNumber: number) => {
     return {
@@ -8,7 +9,7 @@ export const fetchUsersRequest = (pageNumber: number, token: string, orderNumber
     }
 }
 
-export const fetchUsersSuccess = (usersPortion: [], total: number, orderNumber: number) => {
+export const fetchUsersSuccess = (usersPortion: UsersItem[], total: number, orderNumber: number) => {
     return {
         type: FETCH_USERS_SUCCESS,
         payload: {

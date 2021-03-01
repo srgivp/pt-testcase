@@ -2,20 +2,20 @@ import {ReactNode} from "react";
 import {signInRequest, signInFailed, signInSuccess, signUpRequest} from "../actions/sign-in-actions";
 import rootReducer from "../reducers/root-reducer";
 import signOutAction from "../actions/sign-out-action";
-import {authReducer} from "../reducers/auth-reducer";
+// import {State} from "../store-sagas";
 
 export type AddToast = (content: ReactNode, options: AddToastOptions) => string;
 export type AddToastOptions = {
     appearance: string
 }
 
-export type State = {
-    users: StateUsers,
-    user: StateUser,
-    loading: boolean,
-    token: string
-
-}
+// export type State = {
+//     users: StateUsers,
+//     user: StateUser,
+//     loading: boolean,
+//     token: string
+//
+// }
 
 // export type StateSignedUp = StateSignedIn[];
 
@@ -44,13 +44,6 @@ export type StateUser = {
     title?: string
 }
 
-// export type StateSignedIn = {
-//     login: string,
-//     password: string,
-//     userId: string,
-//     token: string
-// }
-
 export type UsersContainerProps = {
     users: StateUsers,
     id?: string,
@@ -78,26 +71,26 @@ export type FieldValues = Record<string, any>;
 //     options?: RadioOrCheckboxOption[];
 // } & RegisterOptions;
 
-export type UserInfoFormData = {
-    age: number,
-    dateOfBirth: Date,
-    firstName: string,
-    lastName: string,
-    picture: string,
-    title: string,
-    id: string
-}
+// export type UserInfoFormData = {
+//     age: number,
+//     dateOfBirth: Date,
+//     firstName: string,
+//     lastName: string,
+//     picture: string,
+//     title: string,
+//     id: string
+// }
 
 export type NavBarProps = {
     pagesQuantity: number,
     linksGenerator: () => JSX.Element[]
 }
 
-export type LinkRouterProps = {
-    color: string,
-    to: string,
-    key: string
-}
+// export type LinkRouterProps = {
+//     color: string,
+//     to: string,
+//     key: string
+// }
 
 export type OnBoardingProps = {
     addToast: AddToast;
@@ -108,54 +101,19 @@ export type OnboardingFormData = {
     password: string
 }
 
-export type InitFetchAuthData = {
-    token: string,
-    addToast: AddToast
-}
+// export type DisplayUserSagaData = {
+//     token: string,
+//     addToast: AddToast,
+//     id: string,
+//     link: string
+// }
 
-export type InitFetchAuthAction = {
-    type: string,
-    data: InitFetchAuthData
-}
+// export type DisplayUserSagaAction = {
+//     type: string,
+//     data: DisplayUserSagaData
+// }
 
-export type DisplayUserSagaData = {
-    token: string,
-    addToast: AddToast,
-    id: string,
-    link: string
-}
-
-export type DisplayUserSagaAction = {
-    type: string,
-    data: DisplayUserSagaData
-}
-
-export type OnboardingSagaData = {
-    state: State,
-    addToast: AddToast,
-    data: LoginPassword
-}
-
-export type OnboardingSagaAction = {
-    type: string,
-    data: OnboardingSagaData
-}
-
-export type LoginPassword = {
-    login: string,
-    password: string
-}
-
-export type SignToApiResponseData = {
-    userId: string,
-    token: string
-}
-
-export type SignToApiResponse = {
-    data: SignToApiResponseData
-}
-
-export type UsersReducerActionData = [] | StateUsers | StateUser | UserInfoFormData;
+// export type UsersReducerActionData = [] | StateUsers | StateUser | UserInfoFormData;
 
 export type AuthActions = ReturnType<typeof signInRequest | typeof signUpRequest | typeof signInSuccess | typeof signInFailed | typeof signOutAction>;
 export type StoreState = ReturnType<typeof rootReducer>;

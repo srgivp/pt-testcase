@@ -17,7 +17,7 @@ export const initialStateUsersInfoGenerator = (pageNumber: number, quantity: num
     usersToMock = usersRest > usersOnPage ? usersOnPage : usersRest;
     let usersInfo = [];
     for (let i=0; i<usersToMock; i++) {
-        usersInfo.push({id: i, firstName: 'Firstname', lastName: 'Lastname', picture: 'none'});
+        usersInfo.push({id: i as number | string, firstName: 'Firstname', lastName: 'Lastname', picture: 'none'});
     }
 return usersInfo;
 }

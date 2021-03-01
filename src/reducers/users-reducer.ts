@@ -29,7 +29,6 @@ export const usersReducer = (state = INITIAL_STATE, action: FetchUsersActions) =
             const previousState = JSON.parse(JSON.stringify(state));
             let usersInfoUpdated = previousState.info;
             usersInfoUpdated.splice(orderNumber, fetchingStep, ...usersPortion);
-            console.log('have added portion');
             return {
                 loading: false,
                 error: null,
@@ -47,14 +46,13 @@ export const usersReducer = (state = INITIAL_STATE, action: FetchUsersActions) =
         case SIGN_OUT: {
             return {
                 loading: false,
-                error: null as null | Error,
-                info: [] as [],
-                quantity: null as null | number
+                error: null,
+                info: [],
+                quantity: null
             }
         }
         case CLEAR_USERS_INFO: {
             const {pageNumber, quantity} = action.payload;
-            console.log('have cleaned users');
             return {
                 ...state,
                 info: initialStateUsersInfoGenerator(pageNumber, quantity)

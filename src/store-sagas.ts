@@ -20,7 +20,7 @@ let token = tokenLoaded ? tokenLoaded : null;
 export const initialState = {
     loading: false,
     allErrorsHandler: {
-        error: null as null | object
+        error: null as null | Error
     },
     auth: {
         loading: false,
