@@ -1,9 +1,10 @@
 import {
-    CLEAR_USERS_INFO,
+    CLEAR_USERS_INFO, EDIT_USER, FETCH_DETAILS_SUCCESS,
     FETCH_USERS_ERROR,
     FETCH_USERS_REQUEST,
     FETCH_USERS_SUCCESS,
-    SIGN_OUT
+    SIGN_OUT,
+    DELETE_USER
 } from "../actions/action-types";
 import {FetchUsersActions} from "../actions/fetch-users-actions";
 import {fetchingStep, initialStateUsersInfoGenerator} from "../components/support/utils";
@@ -57,6 +58,36 @@ export const usersReducer = (state = INITIAL_STATE, action: FetchUsersActions) =
                 ...state,
                 info: initialStateUsersInfoGenerator(pageNumber, quantity)
             }
+        }
+        case FETCH_DETAILS_SUCCESS: {
+            let stateBeforeDetails = JSON.parse(JSON.stringify(state));
+            const {details} = action.payload;
+            const id  = details.id;
+            for (let i = 0; i < stateBeforeDetails.info.length; i++) {
+                if (stateBeforeDetails.info[i].id === id) {
+                    stateBeforeDetails.info[i].details = details;
+                    break;
+                }
+            }
+            return stateBeforeDetails;
+        }
+        case EDIT_USER: {
+            let stateBeforeEditing = JSON.parse(JSON.stringify(state));
+            const {details} = action.payload;
+            const id  = details.id;
+            for (let i = 0; i < stateBeforeEditing.info.length; i++) {
+                if (stateBeforeEditing.info[i].id === id) {
+                    stateBeforeEditing.info[i] = {...stateBeforeEditing.info[i], ...action.payload.details};
+                    stateBeforeEditing.info[i].details = {...stateBeforeEditing.info[i].details, ...action.payload.details};
+                    break;
+                }
+            }
+            return stateBeforeEditing;
+        }
+        case DELETE_USER: {
+            let stateBeforeDelete = JSON.parse(JSON.stringify(state));
+            stateBeforeDelete.info = stateBeforeDelete.info.filter(item => item.id !== action.payload.id);
+            return stateBeforeDelete;
         }
         default: {
             return state

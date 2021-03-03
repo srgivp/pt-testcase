@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import {useSelector, useDispatch} from "react-redux";
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,12 +9,11 @@ import { mdiAccountEditOutline, mdiDeleteForeverOutline } from '@mdi/js';
 import {IconButton} from "@material-ui/core";
 import Icon from '@mdi/react';
 import PropTypes from "prop-types";
-// import {onClickCardEdit, onClickDelete} from "./on-click-card";
-import {StoreState, UserCardProps} from "../types/ts-types";
-//import './components.css'
+import {UserCardProps} from "../types/ts-types";
 import VisibilitySensor from 'react-visibility-sensor';
 import {leadUserCards, pageToFetchDefiner} from "./support/utils";
 import {fetchUsersRequest} from "../actions/fetch-users-actions";
+import {useUserCard} from "./support/on-click-card";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,8 +22,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         flexWrap: 'wrap',
-        margin: '20px',
-        //position: 'relative'
+        margin: '20px'
     },
     large: {
         width: theme.spacing(10),
@@ -46,28 +43,26 @@ header: {
 
 
 const UserCard = (props: UserCardProps)=>{
-    const state: any = useSelector((state: StoreState)=>{return state});
-    const dispatch = useDispatch();
+    const {state, dispatch, onClickCardEdit, onClickCardDelete} = useUserCard();
     const classes = useStyles();
-    // const token = state.auth.token;
     const userName=`${props.name} ${props.lastname}`;
     const params: any = useParams();
     const appPage = eval(params.number);
-    const pageToFetch = pageToFetchDefiner(appPage, props.orderNumber);
+    const orderNumber: number = props.orderNumber;
+    const pageToFetch = pageToFetchDefiner(appPage, orderNumber);
     const visibilityOnChange = (isVisible: boolean) => {
         if (isVisible) {
-            if (leadUserCards.includes(props.orderNumber) && props.name === 'Firstname'){
-dispatch(fetchUsersRequest(pageToFetch, state.auth.token, props.orderNumber))
+            if (leadUserCards.includes(orderNumber) && props.name === 'Firstname'){
+dispatch(fetchUsersRequest(pageToFetch, state.auth.token, orderNumber))
             }
         }
     }
     return <VisibilitySensor onChange={visibilityOnChange}>
         <Card id ={props.id} className={`${classes.root} card`}>
             <CardActions disableSpacing className={classes.actions}>
-                {/*<Link to={`${props.link}/person?id=${props.id}`}>*/}
                 <IconButton aria-label='edit card'
                             onClick={()=>{
-                                // onClickCardEdit(state, dispatch, props.link, props.id, token, props.addToast)
+                                onClickCardEdit(props.id)
                             }}>
                     <Icon path={mdiAccountEditOutline}
                           title="edit card"
@@ -78,10 +73,9 @@ dispatch(fetchUsersRequest(pageToFetch, state.auth.token, props.orderNumber))
                           color="#f5d442"
                     />
                 </IconButton>
-                {/*</Link>*/}
                 <IconButton aria-label='delete card'
                             onClick = {()=>{
-                                // onClickDelete(dispatch, props.id)
+                                onClickCardDelete(props.id)
                             }}
                 >
                     <Icon path={mdiDeleteForeverOutline}

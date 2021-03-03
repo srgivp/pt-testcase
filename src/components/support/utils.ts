@@ -1,11 +1,13 @@
+import {UserState} from "../../support/axios";
+
 export const usersOnPage = 40;
+export let usersOnPageDynamic = usersOnPage;
 export const fetchingStep = 5;
 const leadUserCardsDefiner = () => {
     let leadUserCards = [];
     for (let i=0; i < usersOnPage; i+=fetchingStep){
         leadUserCards.push(i);
     }
-    console.log(leadUserCards);
     return leadUserCards;
 }
 
@@ -17,7 +19,7 @@ export const initialStateUsersInfoGenerator = (pageNumber: number, quantity: num
     usersToMock = usersRest > usersOnPage ? usersOnPage : usersRest;
     let usersInfo = [];
     for (let i=0; i<usersToMock; i++) {
-        usersInfo.push({id: i as number | string, firstName: 'Firstname', lastName: 'Lastname', picture: 'none'});
+        usersInfo.push({id: i as number | string, firstName: 'Firstname', lastName: 'Lastname', picture: 'none', details: {} as {} | UserState});
     }
 return usersInfo;
 }

@@ -1,6 +1,14 @@
-import {CLEAR_USERS_INFO, FETCH_USERS_ERROR, FETCH_USERS_REQUEST, FETCH_USERS_SUCCESS} from "./action-types";
+import {
+    CLEAR_USERS_INFO,
+    DELETE_USER,
+    FETCH_USERS_ERROR,
+    FETCH_USERS_REQUEST,
+    FETCH_USERS_SUCCESS
+} from "./action-types";
 import signOutAction from "./sign-out-action";
 import {UsersItem} from "../types/ts-types";
+import {fetchDetailsSuccess} from "./fetch-details-actions";
+import {editUserAction} from "./edit-user-action";
 
 export const fetchUsersRequest = (pageNumber: number, token: string, orderNumber: number) => {
     return {
@@ -39,4 +47,11 @@ export const clearUsersInfo = (pageNumber: number, quantity: number) => {
     }
 }
 
-export type FetchUsersActions = ReturnType<typeof fetchUsersError | typeof fetchUsersRequest | typeof fetchUsersSuccess | typeof signOutAction | typeof clearUsersInfo>;
+export const deleteUserAction = (id) => {
+    return {
+        type: DELETE_USER,
+        payload: {id}
+    }
+}
+
+export type FetchUsersActions = ReturnType<typeof fetchUsersError | typeof fetchUsersRequest | typeof fetchUsersSuccess | typeof signOutAction | typeof clearUsersInfo | typeof fetchDetailsSuccess | typeof editUserAction | typeof deleteUserAction>;

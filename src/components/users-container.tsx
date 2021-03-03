@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import './components.css';
-import {UsersContainerProps} from "../types/ts-types";
+import {UsersItem} from "../types/ts-types";
 import {clearUsersInfo, fetchUsersRequest} from "../actions/fetch-users-actions";
 import {State} from "../store-sagas";
 
@@ -23,35 +23,38 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const UsersContainer = (props: UsersContainerProps) => {
+const UsersContainer = (props) => {
     const state = useSelector((state: State) => state);
     const classes = useStyles();
+    let {location} = props;
     const params: any = useParams();
     const dispatch = useDispatch();
     useEffect(() => {
         if (!state.users.quantity && state.auth.token) {
-            console.log('defining quantity');
             dispatch(fetchUsersRequest(eval(params.number) - 1, state.auth.token, 0));
-        } else if (state.users.quantity) {
-            console.log('cleaning users info');
+        } else if (state.users.quantity && params.number !== location.state?.params?.number) {
             dispatch(clearUsersInfo(eval(params.number), state.users.quantity));
+        }
+        return () => {
+            location.state = null
         }
     }, [params.number, state.users.quantity])
 
     const userCardsGenerator = (): JSX.Element[] => {
         let cardsArr: JSX.Element[] = [];
-        state.users.info.forEach((item, index: number) => {
+        state.users.info.forEach((item: UsersItem, index: number) => {
             const userCard: JSX.Element = (
-                <UserCard orderNumber={index} key={item.id.toString()} name={item.firstName} lastname={item.lastName} id={item.id.toString()}
+                <UserCard orderNumber={index} key={item.id.toString()} name={item.firstName} lastname={item.lastName}
+                          id={item.id.toString()}
                           img={item.picture}/>);
             cardsArr.push(userCard);
         })
         return cardsArr;
     }
 
+
     return <Container className={`flex-container, ${classes.root} users-container`}>
         {userCardsGenerator()}
-        {/*{state.users.loading ? Processing() : userCardsGenerator()}*/}
     </Container>
 
 }

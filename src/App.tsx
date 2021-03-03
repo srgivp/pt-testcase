@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import PrivateRoute from "./routes/private-route";
 import ROUTES from "./routes/routes-constants";
 import UsersContainer from "./components/users-container";
+import UserInfo from "./components/user-info";
 import {ToastProvider} from "react-toast-notifications";
 import {State} from "./store-sagas";
 
@@ -22,10 +23,10 @@ function App() {
                 <Route path='/' exact>
                     <Redirect to={state.auth.token ? ROUTES.dynamic.usersPage(1) : '/sign-in'}/>
                 </Route>
-                <PrivateRoute path={ROUTES.dynamic.usersPage()} component={UsersContainer}/>
+                <PrivateRoute path={ROUTES.dynamic.usersPage()} exact component={UsersContainer}/>
+                <PrivateRoute path={ROUTES.dynamic.user()} exact component={UserInfo} />
                 <Route path={ROUTES.signIn} component={SignInComponent}/>
                 <Route path={ROUTES.signUp} component={SignUpComponent}/>
-                {/*<Route path = {ROUTES.dynamic.usersPage()} component={Users} />*/}
             </Router>
 
         </div>
